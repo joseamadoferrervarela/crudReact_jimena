@@ -16,7 +16,7 @@ function App() {
     { id: 2, nombre: "channel", apellido: "preston" },
     { id: 3, nombre: "asa", apellido: "akira" },
   ];
-
+  
   const [data, setData] = useState([]);
   const [mostrarmodal, setMostrarmodal] = useState(false);
   const [mostrarmodaleditar, setMostrarmodaleditar] = useState(false);
@@ -25,8 +25,11 @@ function App() {
 
   useEffect(() => {
     setData(datos);
+  
   }, []);
 
+  
+  
   const editarcampos = (e) => {
     setCampos({ ...campos, nombre: e.target.value, id: data.length + 1 });
     console.log(campos);
@@ -48,8 +51,10 @@ function App() {
   };
 
   const modaleditarabrir = (datasss) => {
-    setMostrarmodaleditar(true);
     setRegistro(datasss);
+    setCampos(datasss)
+    setMostrarmodaleditar(true);
+    
   };
 
   const modaleditarcerrar = () => {
@@ -86,11 +91,19 @@ function App() {
   };
 
   const eliminar = (dattas) => {
+
     console.log(dattas);
-    setData(data.filter((dat) => dat.id !== dattas.id));
-    console.log(data);
+    const hola=data.filter((dat) => dat.id !== dattas.id)
+    setData(hola);
+    console.log(hola);
+
+   const nueva= hola.map((res,ind)=>{
+      return {...res,id:ind+1}
+    })
+   setData(nueva)
   };
 
+  
   return (
     <>
       <Container></Container>
@@ -192,6 +205,7 @@ function App() {
               className="form-control"
               name="nombre"
               onChange={(e) => editarcampos(e)}
+              value={campos.nombre}
             />
           </FormGroup>
           <FormGroup>
@@ -201,6 +215,7 @@ function App() {
               className="form-control"
               name="apellido"
               onChange={(e) => editarcampos1(e)}
+              value={campos.apellido}
             />
           </FormGroup>
         </ModalBody>
